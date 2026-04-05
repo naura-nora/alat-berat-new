@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register - {{ config('app.name', 'Laravel') }}</title>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* VIDEO */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* OVERLAY */
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(0,0,0,0.65),
+                rgba(0,0,0,0.75)
+            );
+            z-index: -1;
+        }
+
+        /* WRAPPER */
+        .main-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* LEFT */
+        .left-content {
+            color: white;
+            padding: 0 80px;
+        }
+
+        .left-content h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .left-content p {
+            font-size: 16px;
+            opacity: 0.8;
+            max-width: 400px;
+        }
+
+        .line {
+            width: 60px;
+            height: 3px;
+            background: #ffbf2b;
+            margin: 15px 0;
+        }
+
+        /* REGISTER BOX */
+        .register-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            padding: 45px;
+            width: 100%;
+            max-width: 420px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            margin-right: 60px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .register-header h2 {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* INPUT */
+        .form-control {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 14px;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* BUTTON */
+        .btn-register {
+            background: linear-gradient(45deg, #ffbf2b, #ff8c00);
+            color: black;
+            border: none;
+            font-weight: bold;
+            padding: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-register:hover {
+            transform: scale(1.03);
+            opacity: 0.9;
+        }
+
+        /* LINK */
+        .login-link {
+            border-top: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+
+        .login-link a {
+            color: #ffbf2b;
+        }
+
+        /* ANIMASI */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .left-content {
+                display: none;
+            }
+
+            .register-box {
+                margin: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- VIDEO -->
+<video autoplay muted loop id="bg-video">
+    <source src="{{ asset('videos/eskanew.mp4') }}" type="video/mp4">
+</video>
+
+<!-- OVERLAY -->
+<div class="overlay"></div>
+
+<div class="container-fluid main-wrapper">
+    <div class="row w-100">
+
+        <!-- LEFT -->
+        <div class="col-md-6 d-flex flex-column justify-content-center left-content">
+            <h1>HEAVY EQUIPMENT RENTAL</h1>
+            <div class="line"></div>
+            <p>Daftar dan mulai kelola peminjaman alat berat dengan mudah dan cepat</p>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div class="register-box">
+
+                <!-- HEADER -->
+                <div class="register-header">
+                    <h2>
+                        <img src="{{ asset('images/logo-alatberat.png') }}"
+                            alt="Logo"
+                            style="width: 130px; height: 130px; object-fit: contain;">
+                        <br>
+                        {{ config('app.name', 'Laravel') }}
+                    </h2>
+                    <p>Buat akun baru</p>
+                </div>
+
+                <!-- FORM -->
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+                    
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control"
+                               placeholder="Nama Lengkap" value="{{ old('name') }}" required>
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control"
+                               placeholder="Email" value="{{ old('email') }}" required>
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control"
+                               placeholder="Password" required>
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="password" name="password_confirmation" class="form-control"
+                               placeholder="Konfirmasi Password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-register w-100">
+                        <i class="fas fa-user-plus me-2"></i> Register
+                    </button>
+                </form>
+
+                <!-- LOGIN LINK -->
+                <div class="login-link">
+                    <p class="mb-0">
+                        Sudah punya akun?
+                        <a href="{{ route('login') }}">Login</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

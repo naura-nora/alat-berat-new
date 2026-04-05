@@ -1,0 +1,169 @@
+{{-- resources/views/admin/user/show.blade.php --}}
+@extends('layouts.app')
+
+@section('title', 'Detail User')
+
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Detail User</h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.user.index') }}" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-arrow-left mr-1"></i> Kembali
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <div class="user-profile">
+                                <div class="avatar-circle mb-3">
+                                    <span class="initials">{{ substr($user->name, 0, 2) }}</span>
+                                </div>
+                                <h4>{{ $user->name }}</h4>
+                                <span class="badge badge-{{ $user->isAdmin() ? 'danger' : ($user->isPetugas() ? 'warning' : 'success') }}">
+                                    {{ ucfirst($user->role) }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-9">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Nama Lengkap</th>
+                                    <td>{{ $user->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ $user->email }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Telepon</th>
+                                    <td>{{ $user->phone ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Role</th>
+                                    <td>
+                                        <span class="badge badge-{{ $user->isAdmin() ? 'danger' : ($user->isPetugas() ? 'warning' : 'success') }}">
+                                            {{ ucfirst($user->role) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Status Email</th>
+                                    <td>
+                                        @if($user->email_verified_at)
+                                            <span class="badge badge-success">Terverifikasi</span>
+                                            <small class="text-muted">({{ $user->email_verified_at->format('d/m/Y H:i') }})</small>
+                                        @else
+                                            <span class="badge badge-warning">Belum Verifikasi</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Daftar</th>
+                                    <td>{{ $user->created_at->format('d F Y H:i') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Terakhir Diupdate</th>
+                                    <td>{{ $user->updated_at->format('d F Y H:i') }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ route('admin.user.edit', $user) }}" class="btn btn-warning">
+                        <i class="fas fa-edit mr-1"></i> Edit
+                    </a>
+                    <form action="{{ route('admin.user.destroy', $user) }}" method="POST" 
+                          class="d-inline" onsubmit="return confirm('Yakin hapus user ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" 
+                                {{ auth()->id() === $user->id ? 'disabled' : '' }}>
+                            <i class="fas fa-trash mr-1"></i> Hapus
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Aktivitas</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Akun Dibuat
+                            <span class="badge badge-secondary">{{ $user->created_at->diffForHumans() }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Terakhir Diupdate
+                            <span class="badge badge-secondary">{{ $user->updated_at->diffForHumans() }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Status
+                            <span class="badge badge-{{ $user->email_verified_at ? 'success' : 'warning' }}">
+                                {{ $user->email_verified_at ? 'Aktif' : 'Pending' }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Actions</h3>
+                </div>
+                <div class="card-body">
+                    <a href="{{ route('admin.user.create') }}" class="btn btn-primary btn-block mb-2">
+                        <i class="fas fa-plus mr-1"></i> Tambah User Baru
+                    </a>
+                    <a href="{{ route('admin.user.index') }}" class="btn btn-secondary btn-block mb-2">
+                        <i class="fas fa-list mr-1"></i> Lihat Semua User
+                    </a>
+                    @if(!$user->email_verified_at)
+                    <form action="#" method="POST" class="d-inline w-100">
+                        @csrf
+                        <button type="submit" class="btn btn-info btn-block mb-2">
+                            <i class="fas fa-envelope mr-1"></i> Kirim Ulang Verifikasi
+                        </button>
+                    </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('styles')
+<style>
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(45deg, #ffbf2b, #ff9f00);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    .avatar-circle .initials {
+        font-size: 36px;
+        font-weight: bold;
+        color: white;
+    }
+    
+    .user-profile h4 {
+        margin-bottom: 10px;
+    }
+</style>
+@endpush
