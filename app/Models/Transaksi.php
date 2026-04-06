@@ -17,7 +17,9 @@ class Transaksi extends Model
         'jumlah_hari',
         'biaya_kerusakan',
         'total_bayar',
-        'metode_pembayaran'
+        'metode_pembayaran',
+        'uang_dibayar',      
+        'kembalian'
     ];
 
     public function peminjaman()

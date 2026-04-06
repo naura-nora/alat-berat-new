@@ -7,6 +7,7 @@
     .card-hover {
         transition: all 0.25s ease;
         border-radius: 14px;
+        overflow: hidden;  /* ← TAMBAHKAN INI */
     }
 
     .card-hover:hover {
@@ -29,7 +30,7 @@
     .harga-value {
         font-size: 15px;
         font-weight: 600;
-        color: #2563eb; /* samakan dengan primary */
+        color: #2563eb;
     }
 
     /* Divider */
@@ -37,6 +38,18 @@
         height: 1px;
         background-color: #f1f1f1;
         margin: 12px 0;
+    }
+    
+    /* Badge stok - perbaiki posisi */
+    .stok-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 10;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 5px 12px;
     }
 </style>
 
@@ -61,21 +74,26 @@
 
                 <div class="card h-100 border-0 shadow-sm card-hover">
 
-                    {{-- Gambar --}}
-                    @if($item->gambar)
+                    {{-- Gambar dengan posisi relative --}}
                     <div class="position-relative">
-                        <img src="{{ asset('images/' . $item->gambar) }}" 
-                             class="card-img-top"
-                             style="height: 220px; object-fit: cover;"
-                             alt="Gambar {{ $item->nama }}">
+                        @if($item->gambar)
+                            <img src="{{ asset('images/' . $item->gambar) }}" 
+                                 class="card-img-top"
+                                 style="height: 220px; width: 100%; object-fit: cover;"
+                                 alt="Gambar {{ $item->nama }}">
+                        @else
+                            <div class="bg-light d-flex align-items-center justify-content-center"
+                                 style="height: 220px; width: 100%;">
+                                <i class="fas fa-tools fa-4x text-muted"></i>
+                            </div>
+                        @endif
 
-                        {{-- Badge stok --}}
-                        <span class="badge {{ $item->stok > 0 ? 'bg-success' : 'bg-secondary' }} 
-                            position-absolute top-0 end-0 m-3 px-3 py-2">
+                        {{-- Badge stok - perbaiki dengan class terpisah --}}
+                        <span class="stok-badge {{ $item->stok > 0 ? 'bg-success' : 'bg-secondary' }}">
+                            <i class="fas {{ $item->stok > 0 ? 'fa-check-circle' : 'fa-times-circle' }} mr-1"></i>
                             {{ $item->stok > 0 ? 'Tersedia: '.$item->stok : 'Stok Habis' }}
                         </span>
                     </div>
-                    @endif
 
                     <div class="card-body">
 
@@ -94,22 +112,21 @@
                         </div>
 
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="info-label">Harga</span>
+                            <span class="info-label">Harga Sewa</span>
                             <span class="harga-value">
                                 Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}
                             </span>
                         </div>
 
                         {{-- Deskripsi --}}
-                        @if($item->keterangan)
-                        <div class="divider"></div>
-
-                        <div>
-                            <span class="info-label d-block mb-1">Deskripsi</span>
-                            <small class="text-muted">
-                                {{ \Illuminate\Support\Str::limit($item->keterangan, 110) }}
-                            </small>
-                        </div>
+                        @if($item->deskripsi)
+                            <div class="divider"></div>
+                            <div>
+                                <span class="info-label d-block mb-1">Deskripsi</span>
+                                <small class="text-muted">
+                                    {{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}
+                                </small>
+                            </div>
                         @endif
 
                     </div>

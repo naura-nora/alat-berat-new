@@ -4,10 +4,6 @@
 <div class="container">
     <h2>Data Pengembalian (Admin)</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -43,13 +39,16 @@
                 {{-- AKSI FIX --}}
                 <td>
                     <a href="{{ route('admin.pengembalian.show', $item->id) }}" 
-                       class="btn btn-sm btn-info">Detail</a>
+                       class="btn btn-sm btn-info">
+                       <i class="fas fa-eye"></i>
+                    </a>
+                       
 
                     <form action="{{ route('admin.pengembalian.destroy', $item->id) }}" 
                           method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-sm btn-danger">Hapus</button>
+                        <button class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i></button>
                     </form>
                 </td>
 

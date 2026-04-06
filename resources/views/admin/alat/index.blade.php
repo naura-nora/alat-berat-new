@@ -84,7 +84,6 @@
                                     <th>Kategori</th>
                                     <th>Merk</th>
                                     <th>Stok</th>
-                                    <th>Status</th>
                                     <th>Harga Sewa</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -107,19 +106,6 @@
                                     <td>{{ $item->kategori->nama ?? '-' }}</td>
                                     <td>{{ $item->merk ?? '-' }}</td>
                                     <td>{{ $item->stok }}</td>
-                                    <td>
-                                        @php
-                                            $statusColors = [
-                                                'tersedia' => 'success',
-                                                'dipinjam' => 'warning',
-                                                'rusak' => 'danger',
-                                                'maintenance' => 'info'
-                                            ];
-                                        @endphp
-                                        <span class="badge badge-{{ $statusColors[$item->status] ?? 'secondary' }}">
-                                            {{ ucfirst($item->status) }}
-                                        </span>
-                                    </td>
                                     <td>Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</td>
                                     <td>
                                         <div class="btn-group btn-group-sm">

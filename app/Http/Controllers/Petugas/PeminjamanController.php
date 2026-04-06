@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\LogActivityTrait;
 
 class PeminjamanController extends Controller
 {
+    use LogActivityTrait;
+
     public function index()
     {
         $peminjaman = Peminjaman::with('details.alat', 'user')
@@ -31,6 +34,9 @@ class PeminjamanController extends Controller
             'petugas_id' => auth()->id(),
         ]);
 
+        // ✅ TAMBAHKAN LOG AKTIVITAS
+        $this->logActivity('approve', 'peminjaman');
+
         return back()->with('success', 'Peminjaman berhasil disetujui.');
     }
 
@@ -50,6 +56,9 @@ class PeminjamanController extends Controller
             'petugas_id' => auth()->id(),
         ]);
 
+        // ✅ TAMBAHKAN LOG AKTIVITAS
+        $this->logActivity('reject', 'peminjaman');
+        
         return back()->with('success', 'Peminjaman berhasil ditolak.');
     }
 }

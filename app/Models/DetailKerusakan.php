@@ -13,7 +13,9 @@ class DetailKerusakan extends Model
     
     protected $fillable = [
         'pengembalian_id',
+        'detail_peminjaman_id',
         'deskripsi_kerusakan',
+        'jumlah_rusak', 
         'biaya_perbaikan',
     ];
 

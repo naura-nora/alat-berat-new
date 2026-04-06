@@ -8,13 +8,7 @@
             <i class="fas fa-plus"></i> Ajukan Peminjaman Baru
         </a> -->
     </div>
-    
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    
+
     @if($peminjaman->isEmpty())
         <div class="alert alert-info">
             Anda belum memiliki riwayat peminjaman. Silakan ajukan peminjaman baru.
@@ -108,4 +102,21 @@
         @endif
     @endif
 </div>
+
+
+
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var audio = new Audio('/audio/sound-correct.wav');
+        audio.play().catch(function(error) {
+            console.log('Suara tidak bisa diputar:', error);
+        });
+    });
+</script>
+@endif
+
+
 @endsection
+
+

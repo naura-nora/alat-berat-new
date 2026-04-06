@@ -42,19 +42,6 @@
 
         
 
-
-                {{-- Untuk Petugas --}}
-                @if(auth()->user()->isPetugas())
-                <!-- <li class="nav-item">
-                    <a href="{{ route('petugas.peminjaman.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-clipboard-list"></i>
-                        <p>Kelola Peminjaman</p>
-                    </a>
-                </li> -->
-                @endif
-
-
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-hand-holding"></i>
@@ -91,20 +78,6 @@
                     <a href="{{ route('petugas.user.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>Data Peminjam</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-history"></i>
-                        <p>Laporan Transaksi</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Profil Saya</p>
                     </a>
                 </li>
             </ul>

@@ -6,10 +6,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Traits\LogActivityTrait;
 use Illuminate\Support\Facades\Validator;
 
 class KategoriController extends Controller
 {
+    use LogActivityTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -44,6 +47,9 @@ class KategoriController extends Controller
         }
 
         Kategori::create($request->all());
+
+        // LOG AKTIVITAS ✅
+        $this->logActivity('create', 'kategori');
 
         return redirect()->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil ditambahkan.');
@@ -83,6 +89,9 @@ class KategoriController extends Controller
 
         $kategori->update($request->all());
 
+        // LOG AKTIVITAS ✅
+        $this->logActivity('update', 'kategori');
+
         return redirect()->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil diperbarui.');
     }
@@ -93,6 +102,9 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori)
     {
         $kategori->delete();
+
+        // LOG AKTIVITAS ✅
+        $this->logActivity('delete', 'kategori');
 
         return redirect()->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil dihapus.');

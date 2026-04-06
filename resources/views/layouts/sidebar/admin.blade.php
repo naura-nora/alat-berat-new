@@ -114,22 +114,10 @@
                     </a>
                 </li>
 
-                
-                <!-- profil -->
-
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Profil Saya</p>
-                    </a>
-                </li>
-
-
-                <!-- Pengaturan -->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cog"></i>
-                        <p>Pengaturan</p>
+                    <a href="{{ route('admin.log-aktivitas.index') }}" class="nav-link">
+                        <i class="fas fa-history nav-icon"></i>
+                        <p>Log Aktivitas</p>
                     </a>
                 </li>
             </ul>

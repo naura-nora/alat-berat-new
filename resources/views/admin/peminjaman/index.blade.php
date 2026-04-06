@@ -1,116 +1,116 @@
 @extends('layouts.app')
 
+@section('title', 'Data Peminjaman')
+
 @section('content')
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Data Peminjaman (Admin)</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Data Peminjaman</h3>
+                    <div class="card-tools">
+                        {{-- Kosongkan seperti di index alat --}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if($peminjaman->isEmpty())
+                        <div class="alert alert-info">
+                            Belum ada data peminjaman.
+                        </div>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead style="background-color: #fff;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Kode Peminjaman</th>
+                                        <th>Peminjam</th>
+                                        <th>Petugas</th>
+                                        <th>Barang</th>
+                                        <th>Tanggal Pinjam</th>
+                                        <th>Tanggal Kembali</th>
+                                        <th>Jumlah</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($peminjaman as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration + ($peminjaman->perPage() * ($peminjaman->currentPage() - 1)) }}</td>
+                                        <td>{{ $item->kode_peminjaman }}</td>
+                                        <td>{{ $item->user->name ?? '-' }}</td>
+                                        <td>{{ $item->petugas->name ?? '-' }}</td>
+                                        {{-- PERBAIKAN ADA DI SINI --}}
+                                        <td>
+                                            @if($item->details && $item->details->count() > 0)
+                                                @foreach($item->details as $detail)
+                                                    {{ $detail->alat->nama ?? '-' }} ({{ $detail->jumlah }})<br>
+                                                @endforeach
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_pinjam)->format('d/m/Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_kembali_rencana)->format('d/m/Y') }}</td>
+                                        <td>{{ $item->jumlah_barang }} unit</td>
+                                        <td>
+                                            @php
+                                                $statusColors = [
+                                                    'pending' => 'warning',
+                                                    'disetujui' => 'success',
+                                                    'dipinjam' => 'primary',
+                                                    'dalam_pengembalian' => 'info',
+                                                    'dikembalikan' => 'secondary',
+                                                    'ditolak' => 'danger'
+                                                ];
+                                            @endphp
+                                            <span class="badge badge-{{ $statusColors[$item->status] ?? 'secondary' }}">
+                                                @if($item->status == 'pending')
+                                                    Menunggu
+                                                @elseif($item->status == 'disetujui')
+                                                    Disetujui
+                                                @elseif($item->status == 'dipinjam')
+                                                    Dipinjam
+                                                @elseif($item->status == 'dalam_pengembalian')
+                                                    Proses Pengembalian
+                                                @elseif($item->status == 'dikembalikan')
+                                                    Dikembalikan
+                                                @elseif($item->status == 'ditolak')
+                                                    Ditolak
+                                                @else
+                                                    {{ $item->status }}
+                                                @endif
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="{{ route('admin.peminjaman.show', $item->id) }}" class="btn btn-info" title="Lihat">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <form action="{{ route('admin.peminjaman.destroy', $item->id) }}" 
+                                                      method="POST" class="d-inline"
+                                                      onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger" title="Hapus">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
-
-    {{-- ALERT --}}
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- DATA KOSONG --}}
-    @if($peminjaman->isEmpty())
-        <div class="alert alert-info">
-            Belum ada data peminjaman.
-        </div>
-    @else
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Kode</th>
-                        <th>Peminjam</th>
-                        <th>Petugas</th>
-                        <th>Barang</th>
-                        <th>Tanggal Pinjam</th>
-                        <th>Tanggal Kembali</th>
-                        <th>Jumlah</th>
-                        <th>Status</th>
-                        <th width="120">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($peminjaman as $item)
-                    <tr>
-                        {{-- KODE --}}
-                        <td>{{ $item->kode_peminjaman }}</td>
-
-                        {{-- PEMINJAM --}}
-                        <td>{{ $item->user->name ?? '-' }}</td>
-
-                        {{-- PETUGAS --}}
-                        <td>{{ $item->petugas->name ?? '-' }}</td>
-
-                        {{-- BARANG --}}
-                        <td>
-                            @foreach($item->details as $detail)
-                                {{ $detail->alat->nama_alat ?? '-' }} ({{ $detail->jumlah }}) <br>
-                            @endforeach
-                        </td>
-
-                        {{-- TANGGAL --}}
-                        <td>{{ \Carbon\Carbon::parse($item->tanggal_pinjam)->format('d/m/Y') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->tanggal_kembali_rencana)->format('d/m/Y') }}</td>
-
-                        {{-- JUMLAH --}}
-                        <td>{{ $item->jumlah_barang }}</td>
-
-                        {{-- STATUS --}}
-                        <td>
-                            @if($item->status == 'pending')
-                                <span class="badge bg-warning text-dark">Menunggu</span>
-                            @elseif($item->status == 'disetujui')
-                                <span class="badge bg-success">Disetujui</span>
-                            @elseif($item->status == 'dipinjam')
-                                <span class="badge bg-primary">Dipinjam</span>
-                            @elseif($item->status == 'dalam_pengembalian')
-                                <span class="badge bg-info text-dark">Proses Pengembalian</span>
-                            @elseif($item->status == 'dikembalikan')
-                                <span class="badge bg-secondary">Dikembalikan</span>
-                            @elseif($item->status == 'ditolak')
-                                <span class="badge bg-danger">Ditolak</span>
-                            @else
-                                <span class="badge bg-dark">{{ $item->status }}</span>
-                            @endif
-                        </td>
-
-                        {{-- AKSI ADMIN --}}
-                        <td>
-                            {{-- DETAIL (optional nanti bisa kamu buat route sendiri) --}}
-                            <a href="#" class="btn btn-sm btn-info" title="Detail">
-                                <i class="fas fa-eye"></i>
-                            </a>
-
-                            {{-- HAPUS --}}
-                            <form action="{{ route('admin.peminjaman.destroy', $item->id) }}" 
-                                  method="POST" 
-                                  class="d-inline"
-                                  onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        {{-- PAGINATION --}}
-        @if($peminjaman->hasPages())
-        <div class="d-flex justify-content-center mt-3">
-            {{ $peminjaman->links() }}
-        </div>
-        @endif
-    @endif
 </div>
 @endsection

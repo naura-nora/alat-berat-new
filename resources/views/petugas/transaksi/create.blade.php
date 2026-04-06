@@ -5,7 +5,16 @@
 
 <h3 class="mb-4">Form Transaksi</h3>
 
-<form action="{{ route('petugas.transaksi.store') }}" method="POST">
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle mr-1"></i> {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+<form action="{{ route('petugas.transaksi.store') }}" method="POST" id="transaksiForm">
 @csrf
 
 
@@ -119,6 +128,7 @@ required>
 <label>Uang Bayar</label>
 
 <input type="number"
+name="uang_bayar"
 id="uangBayar"
 class="form-control">
 
@@ -138,7 +148,7 @@ readonly>
 </div>
 
 
-<button class="btn btn-primary">
+<button type="submit" class="btn btn-primary" id="submitBtn">
 Kirim Transaksi
 </button>
 
@@ -213,10 +223,10 @@ dendaOtomatis += hariTerlambat * dendaPerHari * jumlah;
 table.innerHTML += `
 <tr>
 <td>${detail.alat.nama}</td>
-<td>${jumlah}</td>
-<td>${formatRupiah(harga)}</td>
-<td>${hari}</td>
-<td>${formatRupiah(total)}</td>
+<td class="text-center">${jumlah}</td>
+<td class="text-center">${formatRupiah(harga)}</td>
+<td class="text-center">${hari}</td>
+<td class="text-center">${formatRupiah(total)}</td>
 </tr>
 `;
 
@@ -365,6 +375,26 @@ document.getElementById('kembalian').value = formatRupiah(kembali);
 
 });
 
+
+
+/* =========================
+VALIDASI SEBELUM SUBMIT (TAMBAHAN)
+========================= */
+
+document.getElementById('transaksiForm').addEventListener('submit', function(e) {
+    let metode = document.getElementById('metode').value;
+    
+    if (metode == 'cash') {
+        let uangBayar = parseInt(document.getElementById('uangBayar').value) || 0;
+        let totalBayar = parseInt(document.getElementById('totalBayar').value) || 0;
+        
+        if (uangBayar < totalBayar) {
+            e.preventDefault();
+            alert('Uang yang dibayar kurang! Transaksi tidak dapat diproses.');
+            return false;
+        }
+    }
+});
 
 
 /* =========================

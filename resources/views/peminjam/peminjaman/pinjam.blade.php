@@ -81,6 +81,18 @@
         </div>
     </div>
 </div>
+
+<script>
+    @if(session('success'))
+        function playSound() {
+            const audio = new Audio('/audio/sound-correct.wav');
+            audio.play().catch(error => {
+                console.log('Gagal memutar suara:', error);
+            });
+        }
+        playSound();
+    @endif
+</script>
 @endsection
 
 

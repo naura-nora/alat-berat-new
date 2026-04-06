@@ -34,24 +34,7 @@
                 <td>{{ $item->tanggal_kembali_rencana }}</td>
                
                 <td>
-                    <!-- @if($item->status == 'pending')
-                        <span class="badge badge-warning">Menunggu</span>
-
-                    @elseif($item->status == 'disetujui')
-                        <span class="badge badge-success">Disetujui</span>
-
-                    @elseif($item->status == 'dalam_pengembalian')
-                        <span class="badge badge-info">Menunggu Konfirmasi Pengembalian</span>
-
-                    @elseif($item->status == 'dikembalikan')
-                        <span class="badge badge-secondary">Sudah Dikembalikan</span>
-
-                    @elseif($item->status == 'ditolak')
-                        <span class="badge badge-danger">Ditolak</span>
-
-                    @else
-                        <span class="badge badge-light">{{ $item->status }}</span>
-                    @endif -->
+        
 
                     @if($item->status == 'pending')
                         <span class="badge badge-warning">Menunggu</span>

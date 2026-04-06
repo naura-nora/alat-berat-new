@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Detail Alat Berat</h3>
                     <div class="card-tools">
-                        <a href="{{ route('admin.alat.index') }}" class="btn btn-secondary btn-sm">
+                        <a href="{{ route('petugas.alat.index') }}" class="btn btn-secondary btn-sm">
                             <i class="fas fa-arrow-left mr-1"></i> Kembali
                         </a>
                     </div>
@@ -51,7 +51,7 @@
                                 </tr>
                                 <tr>
                                     <th>Stok</th>
-                                    <td>{{ $alat->stok }} unit</td>
+                                    <td>{{ $alat->stok }} unit</p>
                                 </tr>
                                 <tr>
                                     <th>Status</th>
@@ -67,11 +67,11 @@
                                         <span class="badge badge-{{ $statusColors[$alat->status] ?? 'secondary' }}">
                                             {{ ucfirst($alat->status) }}
                                         </span>
-                                    </td>
+                                    </p>
                                 </tr>
                                 <tr>
                                     <th>Harga Sewa</th>
-                                    <td>Rp {{ number_format($alat->harga_sewa, 0, ',', '.') }}</td>
+                                    <td>Rp {{ number_format($alat->harga_sewa, 0, ',', '.') }}</p>
                                 </tr>
                                 <tr>
                                     <th>Denda per Hari</th>
@@ -80,43 +80,26 @@
                                             <span class="text-danger">
                                                 <strong>Rp {{ number_format($alat->denda_per_hari, 0, ',', '.') }}</strong>
                                             </span>
-                                            
                                         @else
                                             <span class="text-muted">Belum ditentukan</span>
                                         @endif
-                                    </td>
+                                    </p>
+                                </tr>
+                                <tr>
+                                    <th>Deskripsi</th>
+                                    <td>{{ $alat->deskripsi ?? '-' }}</p>
                                 </tr>
                                 <tr>
                                     <th>Tanggal Dibuat</th>
-                                    <td>{{ $alat->created_at->format('d F Y H:i') }}</td>
+                                    <td>{{ $alat->created_at->format('d F Y H:i') }}</p>
                                 </tr>
                                 <tr>
                                     <th>Terakhir Diupdate</th>
-                                    <td>{{ $alat->updated_at->format('d F Y H:i') }}</td>
+                                    <td>{{ $alat->updated_at->format('d F Y H:i') }}</p>
                                 </tr>
                             </table>
-                            
-                            @if($alat->deskripsi)
-                            <div class="mt-3">
-                                <h5>Deskripsi:</h5>
-                                <p class="text-justify">{{ $alat->deskripsi }}</p>
-                            </div>
-                            @endif
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a href="{{ route('admin.alat.edit', $alat) }}" class="btn btn-warning">
-                        <i class="fas fa-edit mr-1"></i> Edit
-                    </a>
-                    <form action="{{ route('admin.alat.destroy', $alat) }}" method="POST" 
-                          class="d-inline" onsubmit="return confirm('Yakin hapus data?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-trash mr-1"></i> Hapus
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>

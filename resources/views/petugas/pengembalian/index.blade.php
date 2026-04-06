@@ -4,10 +4,6 @@
 <div class="container">
     <h2>Data Pengembalian - Petugas</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <table class="table table-bordered">
         <thead>
             <tr>

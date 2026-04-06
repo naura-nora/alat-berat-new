@@ -17,9 +17,7 @@
                 <span class="badge badge-warning ml-1">{{ ucfirst(Auth::user()->role) }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-user mr-2"></i> Profile
-                </a>
+        
                 <div class="dropdown-divider"></div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

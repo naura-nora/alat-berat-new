@@ -17,6 +17,7 @@ class Peminjaman extends Model
         'petugas_id',
         'tanggal_pinjam',
         'tanggal_kembali_rencana',
+        'tanggal_kembali_aktual',
         'status',
         'alasan_peminjaman'
     ];

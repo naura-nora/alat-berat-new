@@ -8,9 +8,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Traits\LogActivityTrait;
 
 class UserController extends Controller
 {
+    use LogActivityTrait;
     /**
      * Display a listing of the resource.
      */
@@ -49,6 +51,9 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // LOG AKTIVITAS ✅
+        $this->logActivity('create', 'user');
+
         return redirect()->route('admin.user.index')
             ->with('success', 'User berhasil ditambahkan.');
     }
@@ -58,8 +63,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.user.show', compact('user'));
+        $peminjaman = Peminjaman::with(['user', 'petugas', 'details.alat'])->findOrFail($id);
+        return view('admin.peminjaman.show', compact('peminjaman'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -96,6 +103,9 @@ class UserController extends Controller
 
         $user->update($data);
 
+        // LOG AKTIVITAS ✅
+        $this->logActivity('update', 'user');
+
         return redirect()->route('admin.user.index')
             ->with('success', 'User berhasil diperbarui.');
     }
@@ -112,6 +122,9 @@ class UserController extends Controller
         }
 
         $user->delete();
+
+        // LOG AKTIVITAS ✅
+        $this->logActivity('delete', 'user');
 
         return redirect()->route('admin.user.index')
             ->with('success', 'User berhasil dihapus.');

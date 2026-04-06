@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pengembalian;
 use App\Models\Peminjaman;
 use App\Models\DetailKerusakan;
+use App\Models\DetailPeminjaman;  
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -56,61 +57,91 @@ class PengembalianController extends Controller
     
 
     public function prosesCek(Request $request, $id)
-    {
-        $pengembalian = Pengembalian::with('peminjaman.details.alat')
-            ->findOrFail($id);
+{
+    $pengembalian = Pengembalian::with('peminjaman.details.alat')->findOrFail($id);
 
-        foreach ($request->detail as $detailId => $data) {
-
-            $detail = $pengembalian->peminjaman
-                ->details
-                ->where('id', $detailId)
-                ->first();
-
-            if ($detail) {
-
-                $detail->update([
-                    'kondisi_pengembalian' => $data['kondisi'],
-                    'catatan_pengembalian' => $data['catatan'] ?? null,
+    foreach ($request->detail as $data) {
+        
+        $detail = DetailPeminjaman::findOrFail($data['id']);
+        
+        $jumlahBaik = (int)($data['jumlah_baik'] ?? 0);
+        $jumlahRusak = (int)($data['jumlah_rusak'] ?? 0);
+        $keteranganRusak = $data['keterangan_rusak'] ?? null;
+        
+        // Update detail peminjaman dengan kondisi
+        $detail->update([
+            'kondisi_pengembalian' => $jumlahRusak > 0 ? 'rusak' : 'baik',
+            'catatan_pengembalian' => $keteranganRusak,
+            'jumlah_baik' => $jumlahBaik,
+            'jumlah_rusak' => $jumlahRusak,
+        ]);
+        
+        // ==========================================
+        // LOGIKA STOK: HANYA YANG BAIK YANG DIKEMBALIKAN
+        // ==========================================
+        
+        // Kembalikan stok hanya sejumlah barang yang BAIK
+        if ($jumlahBaik > 0) {
+            $detail->alat->increment('stok', $jumlahBaik);
+        }
+        
+        // Update status alat
+        if ($jumlahRusak == $detail->jumlah) {
+            // Semua rusak
+            $detail->alat->update(['status' => 'rusak']);
+        } else {
+            // Sebagian atau semua baik
+            $detail->alat->update(['status' => 'tersedia']);
+        }
+        
+        // ==========================================
+        // DENDA KERUSAKAN TETAP DIHITUNG
+        // ==========================================
+        $totalBiayaKerusakan = 0;
+        
+        if ($jumlahRusak > 0 && isset($data['kerusakan'])) {
+            foreach ($data['kerusakan'] as $kerusakan) {
+                $biaya = (int)($kerusakan['biaya'] ?? 0);
+                $totalBiayaKerusakan += $biaya;
+                
+                DetailKerusakan::create([
+                    'pengembalian_id' => $pengembalian->id,
+                    'detail_peminjaman_id' => $detail->id,
+                    'deskripsi_kerusakan' => $kerusakan['deskripsi'],
+                    'jumlah_rusak' => $kerusakan['jumlah'] ?? $jumlahRusak,
+                    'biaya_perbaikan' => $biaya,
                 ]);
-
-                // kembalikan stok alat
-                $detail->alat->increment('stok', $detail->jumlah);
-
-                // ===============================
-                // SIMPAN DATA KERUSAKAN
-                // ===============================
-
-                if(isset($data['kerusakan'])){
-
-                    foreach($data['kerusakan'] as $kerusakan){
-
-                        DetailKerusakan::create([
-                            'pengembalian_id' => $pengembalian->id,
-                            'deskripsi_kerusakan' => $kerusakan['deskripsi'],
-                            'biaya_perbaikan' => $kerusakan['biaya'],
-                        ]);
-
-                    }
-
-                }
-
             }
         }
-
-        $pengembalian->update([
-            'status' => 'selesai',
-            'petugas_id' => Auth::id(),
+        
+        // Simpan total biaya kerusakan ke detail_peminjaman (opsional)
+        $detail->update([
+            'biaya_kerusakan' => $totalBiayaKerusakan
         ]);
-
-        $pengembalian->peminjaman->update([
-            'status' => 'menunggu_transaksi'
-        ]);
-
-        return redirect()
-            ->route('petugas.pengembalian.index')
-            ->with('success', 'Pengembalian berhasil diproses.');
     }
+    
+    // ==========================================
+    // HITUNG TOTAL DENDA KERUSAKAN DARI SEMUA DETAIL
+    // ==========================================
+    $totalBiayaKerusakan = DetailPeminjaman::where('peminjaman_id', $pengembalian->peminjaman_id)
+        ->sum('biaya_kerusakan');
+    
+    // Update pengembalian
+    $pengembalian->update([
+        'status' => 'selesai',
+        'petugas_id' => Auth::id(),
+        'biaya_kerusakan' => $totalBiayaKerusakan,  // ← DENDA KERUSAKAN TETAP ADA
+    ]);
+    
+    // Update status peminjaman
+    $pengembalian->peminjaman->update([
+        'status' => 'menunggu_transaksi'
+    ]);
+    
+    return redirect()
+        ->route('petugas.pengembalian.index')
+        ->with('success', 'Pengembalian berhasil diproses.');
+}
 
 
 

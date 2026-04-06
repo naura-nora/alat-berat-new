@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Alat;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Traits\LogActivityTrait;
 
 class AlatController extends Controller
 {
+    use LogActivityTrait;
+
     public function index()
     {
         $alat = Alat::with('kategori')->latest()->paginate(10);
@@ -48,6 +51,9 @@ class AlatController extends Controller
         }
 
         Alat::create($validated);
+
+        // LOG AKTIVITAS ✅
+        $this->logActivity('create', 'alat');
 
         return redirect()->route('admin.alat.index')
             ->with('success', 'Data alat berhasil ditambahkan.');
@@ -101,9 +107,14 @@ class AlatController extends Controller
 
         $alat->update($validated);
 
+        // LOG AKTIVITAS ✅
+        $this->logActivity('update', 'alat');
+
         return redirect()->route('admin.alat.index')
             ->with('success', 'Data alat berhasil diperbarui.');
     }
+
+
 
     public function destroy(Alat $alat)
     {
@@ -113,6 +124,10 @@ class AlatController extends Controller
             }
 
             $alat->delete();
+
+
+            // LOG AKTIVITAS ✅
+            $this->logActivity('delete', 'alat');
 
             return redirect()->route('admin.alat.index')
                 ->with('success', 'Data alat berhasil dihapus.');

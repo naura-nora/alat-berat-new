@@ -174,11 +174,11 @@
                         <div class="col-md-6">
                             <h5>Quick Actions:</h5>
 
-                            <a href="#" class="btn btn-primary btn-block mb-2">
+                            <a href="{{ route('petugas.peminjaman.index') }}" class="btn btn-primary btn-block mb-2">
                                 <i class="fas fa-plus mr-2"></i> Proses Peminjaman Baru
                             </a>
 
-                            <a href="#" class="btn btn-success btn-block mb-2">
+                            <a href="{{ route('petugas.pengembalian.index') }}" class="btn btn-success btn-block mb-2">
                                 <i class="fas fa-undo-alt mr-2"></i> Proses Pengembalian
                             </a>
                         </div>
@@ -209,4 +209,6 @@
     </div>
 
 </div>
+
+
 @endsection

@@ -7,6 +7,7 @@ use App\Models\Alat;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
 use Illuminate\Http\Request;
+use App\Traits\LogActivityTrait;
 use App\Models\DetailPeminjaman;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,8 @@ use Illuminate\Support\Str;
 
 class PeminjamanController extends Controller
 {
+    use LogActivityTrait;
+
     public function pinjamAlat(Alat $alat)
     {
         // Cek apakah alat masih bisa dipinjam
@@ -56,6 +59,9 @@ class PeminjamanController extends Controller
         $peminjaman->update([
             'status' => 'dalam_pengembalian'
         ]);
+
+        // ✅ LOG AKTIVITAS 
+        $this->logActivity('return', 'pengembalian');
 
         return redirect()
             ->back()
@@ -155,6 +161,9 @@ class PeminjamanController extends Controller
 
             DB::commit();
 
+            // ✅ SIMPAN LOG AKTIVITAS
+            $this->logActivity('create', 'peminjaman');
+
             return redirect()->route('peminjam.peminjaman.index')
                 ->with('success', 'Pengajuan peminjaman berhasil!');
 
@@ -250,6 +259,9 @@ class PeminjamanController extends Controller
 
             DB::commit();
 
+            // LOG AKTIVITAS ✅
+            $this->logActivity('update', 'peminjaman');
+
             return redirect()
                 ->route('peminjam.peminjaman.index')
                 ->with('success', 'Peminjaman berhasil diperbarui.');
@@ -300,6 +312,9 @@ class PeminjamanController extends Controller
 
             DB::commit();
 
+            // LOG AKTIVITAS
+            $this->logActivity('cancel', 'peminjaman');
+
             return redirect()
                 ->route('peminjam.peminjaman.index')
                 ->with('success', 'Peminjaman berhasil dibatalkan.');
@@ -311,5 +326,6 @@ class PeminjamanController extends Controller
             dd($e->getMessage()); // sementara untuk debug
         }
     }
+    
 
 }

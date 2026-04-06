@@ -20,7 +20,7 @@
                                 </span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Total Alat</span>
-                                    <span class="info-box-number">{{ $alat->total() }}</span>
+                                    <span class="info-box-number">{{ \App\Models\Alat::count() }}</span>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text">Tersedia</span>
                                     <span class="info-box-number">
-                                        {{ $alat->where('status', 'tersedia')->count() }}
+                                        {{ \App\Models\Alat::where('status', 'tersedia')->count() }}
                                     </span>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text">Dipinjam</span>
                                     <span class="info-box-number">
-                                        {{ $alat->where('status', 'dipinjam')->count() }}
+                                        {{ \App\Models\Alat::where('status', 'dipinjam')->count() }}
                                     </span>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                 <div class="info-box-content">
                                     <span class="info-box-text">Maintenance</span>
                                     <span class="info-box-number">
-                                        {{ $alat->where('status', 'maintenance')->count() }}
+                                        {{ \App\Models\Alat::where('status', 'maintenance')->count() }}
                                     </span>
                                 </div>
                             </div>
@@ -73,13 +73,13 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>#</th>
                                     <th>Gambar</th>
+                                    <th>Kode Alat</th>
                                     <th>Nama Alat</th>
                                     <th>Kategori</th>
                                     <th>Merk</th>
                                     <th>Stok</th>
-                                    <th>Status</th>
                                     <th>Harga Sewa</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -90,50 +90,37 @@
                                     <td>{{ $loop->iteration + ($alat->perPage() * ($alat->currentPage() - 1)) }}</td>
                                    
                                     <td>
-                                        <strong>{{ $item->kode_alat }}</strong>
-                                        
                                         @if($item->gambar_url)
-                                        <div class="text-center">
                                             <img src="{{ $item->gambar_url }}" 
                                                 class="rounded shadow-sm"
-                                                style="width: 120px; height: 90px; object-fit: cover;"
+                                                style="width: 80px; height: 60px; object-fit: cover;"
                                                 alt="Gambar {{ $item->nama }}">
-                                        </div>
+                                        @else
+                                            <span class="text-muted">-</span>
                                         @endif
-                                    </td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->kategori->nama ?? '-' }}</td>
-                                    <td>{{ $item->merk ?? '-' }}</td>
-                                    <td>{{ $item->stok }}</td>
-                                    <td>
-                                        @php
-                                            $statusColors = [
-                                                'tersedia' => 'success',
-                                                'dipinjam' => 'warning',
-                                                'rusak' => 'danger',
-                                                'maintenance' => 'info'
-                                            ];
-                                        @endphp
-                                        <span class="badge badge-{{ $statusColors[$item->status] ?? 'secondary' }}">
-                                            {{ ucfirst($item->status) }}
-                                        </span>
-                                    </td>
-                                    <td>Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</td>
+                                    </p>
+                                    <td>{{ $item->kode_alat }}</p>
+                                    <td>{{ $item->nama }}</p>
+                                    <td>{{ $item->kategori->nama ?? '-' }}</p>
+                                    <td>{{ $item->merk ?? '-' }}</p>
+                                    <td>{{ $item->stok }}</p>
+                                    
+                                    <td>Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</p>
                                     <td>
                                         <div class="btn-group btn-group-sm">
-                                            <a href="{{ route('admin.alat.show', $item) }}" 
+                                            <a href="{{ route('petugas.alat.show', $item) }}" 
                                                class="btn btn-info" title="Detail">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </div>
-                                    </td>
+                                    </p>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="9" class="text-center text-muted">
+                                    <td colspan="10" class="text-center text-muted">
                                         <i class="fas fa-tools fa-2x mb-2"></i><br>
                                         Belum ada data alat berat.
-                                    </td>
+                                    </p>
                                 </tr>
                                 @endforelse
                             </tbody>

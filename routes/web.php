@@ -14,6 +14,7 @@ use App\Http\Controllers\Petugas\AlatController as PetugasAlatController;
 use App\Http\Controllers\Petugas\UserController as PetugasUserController;
 use App\Http\Controllers\Peminjam\AlatController;
 use App\Http\Controllers\Petugas\TransaksiController;
+use App\Http\Controllers\Admin\LogAktivitasController;
 
 
 // TAMBAHKAN INI
@@ -108,27 +109,28 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     
     // User Management CRUD
     Route::resource('user', AdminUserController::class);
-    
+
     // LAPORAN BULANAN
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\AdminLaporanController::class, 'index'])->name('index');
         Route::get('/cetak-bulan/{tahun}/{bulan}', [\App\Http\Controllers\Admin\AdminLaporanController::class, 'cetakBulan'])->name('cetak.bulan');
     });
     
-    // Peminjaman admin
+    // PEMINJAMAN (manual)
     Route::get('/peminjaman', [\App\Http\Controllers\Admin\PeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/{id}', [\App\Http\Controllers\Admin\PeminjamanController::class, 'show'])->name('peminjaman.show');
+    Route::delete('/peminjaman/{id}', [\App\Http\Controllers\Admin\PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
     
-    Route::delete('/peminjaman/{id}', [\App\Http\Controllers\Admin\PeminjamanController::class, 'destroy'])
-    ->name('peminjaman.destroy');
-
-    // Pengembalian admin
+    // PENGEMBALIAN
     Route::get('/pengembalian', [\App\Http\Controllers\Admin\PengembalianController::class, 'index'])->name('pengembalian.index');
+    Route::get('/pengembalian/{id}', [\App\Http\Controllers\Admin\PengembalianController::class, 'show'])->name('pengembalian.show');
+    Route::delete('/pengembalian/{id}', [\App\Http\Controllers\Admin\PengembalianController::class, 'destroy'])->name('pengembalian.destroy');
 
-    Route::get('/pengembalian/{id}', [\App\Http\Controllers\Admin\PengembalianController::class, 'show'])
-        ->name('pengembalian.show');
-
-    Route::delete('/pengembalian/{id}', [\App\Http\Controllers\Admin\PengembalianController::class, 'destroy'])
-        ->name('pengembalian.destroy');
+    // LOG AKTIVITAS
+    Route::get('/log-aktivitas', [LogAktivitasController::class, 'index'])->name('log-aktivitas.index');
+    Route::delete('/log-aktivitas/{id}', [LogAktivitasController::class, 'destroy'])->name('log-aktivitas.destroy');
+    Route::post('/peminjaman/{id}/approve', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
+Route::post('/peminjaman/{id}/reject', [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
 });
 
 // =============================================

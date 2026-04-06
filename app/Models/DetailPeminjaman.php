@@ -12,7 +12,11 @@ class DetailPeminjaman extends Model
         'peminjaman_id',
         'alat_id',
         'jumlah',
-        'harga_sewa'
+        'jumlah_baik',
+        'jumlah_rusak',
+        'harga_sewa',
+        'kondisi_pengembalian',
+        'catatan_pengembalian',
     ];
 
     public function peminjaman()
