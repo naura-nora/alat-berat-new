@@ -4,86 +4,9 @@
 
 @section('content')
 
-<style>
-/* Hero */
-.hero-dashboard {
-    height: 180px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-dashboard::before,
-.hero-dashboard::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-}
-
-.hero-dashboard::before {
-    width: 250px;
-    height: 250px;
-    background: rgba(255,255,255,0.06);
-    top: -60px;
-    right: -60px;
-}
-
-.hero-dashboard::after {
-    width: 180px;
-    height: 180px;
-    background: rgba(255,255,255,0.04);
-    bottom: -50px;
-    left: -50px;
-}
-
-/* Info box */
-.info-box {
-    border-radius: 14px;
-    transition: 0.2s;
-}
-
-.info-box:hover {
-    transform: translateY(-2px);
-}
-
-.info-box-icon {
-    border-radius: 12px;
-    opacity: 0.9;
-}
-
-.info-box-icon i {
-    font-size: 22px;
-}
-
-/* Card */
-.card {
-    border-radius: 14px;
-    border: none;
-}
-
-.card-header {
-    background: transparent;
-    border-bottom: 1px solid #f1f1f1;
-    font-weight: 600;
-}
-
-/* Button */
-.btn {
-    border-radius: 10px;
-}
-
-.btn-primary { background: #2563eb; border: none; }
-.btn-success { background: #22c55e; border: none; }
-.btn-warning { background: #f59e0b; border: none; }
-
-/* Konsistensi warna */
-.bg-info    { background: #3b82f6 !important; color: #fff !important; }
-.bg-success { background: #22c55e !important; color: #fff !important; }
-.bg-warning { background: #f59e0b !important; color: #fff !important; }
-.bg-danger  { background: #ef4444 !important; color: #fff !important; }
-
-</style>
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/peminjam.css') }}">
+@endpush
 
 <div class="container-fluid">
 
@@ -214,12 +137,9 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 
-<!-- SOUND SUCCESS LOGIN -->
 
 
 @endsection

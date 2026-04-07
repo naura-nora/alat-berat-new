@@ -1,0 +1,48 @@
+/**
+ * print.css
+ * Digunakan untuk halaman cetak laporan
+ * File yang menggunakan: admin/laporan/cetak-bulanan.blade.php
+ */
+
+/* ========== BASE PRINT ========== */
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 20px; 
+}
+
+/* ========== TABLE STYLE ========== */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 20px 0; 
+}
+
+th, td { 
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: left; 
+}
+
+th { 
+    background-color: #f2f2f2; 
+}
+
+/* ========== HEADER ========== */
+.header { 
+    text-align: center; 
+    margin-bottom: 30px; 
+}
+
+/* ========== SUMMARY SECTION ========== */
+.summary { 
+    margin: 20px 0; 
+    padding: 15px; 
+    background: #f9f9f9; 
+}
+
+/* ========== PRINT MEDIA ========== */
+@media print { 
+    body { 
+        margin: 0; 
+    }
+}
