@@ -2,15 +2,9 @@
 <html>
 <head>
     <title>Laporan Peminjaman - {{ $bulan }} {{ $tahun }}</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .summary { margin: 20px 0; padding: 15px; background: #f9f9f9; }
-        @media print { body { margin: 0; } }
-    </style>
+    
+    <link rel="stylesheet" href="{{ asset('css/print.css') }}">
+
 </head>
 <body>
     <div class="header">

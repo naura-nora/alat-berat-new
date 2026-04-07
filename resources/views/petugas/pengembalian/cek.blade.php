@@ -45,7 +45,7 @@
 
                 {{-- FORM KERUSAKAN (muncul jika jumlah_rusak > 0) --}}
                 <div class="kerusakan-container-{{ $index }}" style="display: none; margin-top: 15px;">
-                    <div class="alert alert-warning">
+                    <div class="alert alert-white">
                         <h6>Detail Kerusakan:</h6>
                         <div class="kerusakan-list-{{ $index }}">
                             <div class="row mb-2 kerusakan-item-0">

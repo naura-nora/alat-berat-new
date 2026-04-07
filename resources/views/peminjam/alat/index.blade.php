@@ -2,56 +2,9 @@
 
 @section('content')
 
-<style>
-    /* Hover card effect */
-    .card-hover {
-        transition: all 0.25s ease;
-        border-radius: 14px;
-        overflow: hidden;  /* ← TAMBAHKAN INI */
-    }
-
-    .card-hover:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-    }
-
-    /* Text styling */
-    .info-label {
-        font-size: 12px;
-        color: #6c757d;
-    }
-
-    .info-value {
-        font-size: 14px;
-        font-weight: 500;
-        color: #212529;
-    }
-
-    .harga-value {
-        font-size: 15px;
-        font-weight: 600;
-        color: #2563eb;
-    }
-
-    /* Divider */
-    .divider {
-        height: 1px;
-        background-color: #f1f1f1;
-        margin: 12px 0;
-    }
-    
-    /* Badge stok - perbaiki posisi */
-    .stok-badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        z-index: 10;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-        padding: 5px 12px;
-    }
-</style>
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/peminjam.css') }}">
+@endpush
 
 <div class="container py-4">
 

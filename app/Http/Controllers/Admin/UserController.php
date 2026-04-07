@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -63,8 +64,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $peminjaman = Peminjaman::with(['user', 'petugas', 'details.alat'])->findOrFail($id);
-        return view('admin.peminjaman.show', compact('peminjaman'));
+        return view('admin.user.show', compact('user'));
     }
 
 

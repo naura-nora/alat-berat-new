@@ -1,30 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-.struk-card{
-    max-width:500px;
-    margin:auto;
-    border-radius:10px;
-}
-.struk-header{
-    text-align:center;
-    font-weight:bold;
-    font-size:18px;
-}
-.struk-line{
-    border-top:1px dashed #ccc;
-    margin:10px 0;
-}
-.total-box{
-    font-size:18px;
-    font-weight:bold;
-    color:#198754;
-}
-.status-badge{
-    font-size:14px;
-}
-</style>
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/petugas.css') }}">
+@endpush
 
 <div class="container">
     <div class="card shadow struk-card">

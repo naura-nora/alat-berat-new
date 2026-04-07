@@ -3,10 +3,14 @@
 
 @section('title', 'Detail User')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endpush
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Detail User</h3>
@@ -91,79 +95,6 @@
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Aktivitas</h3>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Akun Dibuat
-                            <span class="badge badge-secondary">{{ $user->created_at->diffForHumans() }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Terakhir Diupdate
-                            <span class="badge badge-secondary">{{ $user->updated_at->diffForHumans() }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Status
-                            <span class="badge badge-{{ $user->email_verified_at ? 'success' : 'warning' }}">
-                                {{ $user->email_verified_at ? 'Aktif' : 'Pending' }}
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h3 class="card-title">Quick Actions</h3>
-                </div>
-                <div class="card-body">
-                    <a href="{{ route('admin.user.create') }}" class="btn btn-primary btn-block mb-2">
-                        <i class="fas fa-plus mr-1"></i> Tambah User Baru
-                    </a>
-                    <a href="{{ route('admin.user.index') }}" class="btn btn-secondary btn-block mb-2">
-                        <i class="fas fa-list mr-1"></i> Lihat Semua User
-                    </a>
-                    @if(!$user->email_verified_at)
-                    <form action="#" method="POST" class="d-inline w-100">
-                        @csrf
-                        <button type="submit" class="btn btn-info btn-block mb-2">
-                            <i class="fas fa-envelope mr-1"></i> Kirim Ulang Verifikasi
-                        </button>
-                    </form>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
-
-@push('styles')
-<style>
-    .avatar-circle {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(45deg, #ffbf2b, #ff9f00);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-    }
-    
-    .avatar-circle .initials {
-        font-size: 36px;
-        font-weight: bold;
-        color: white;
-    }
-    
-    .user-profile h4 {
-        margin-bottom: 10px;
-    }
-</style>
-@endpush

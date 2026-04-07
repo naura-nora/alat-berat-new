@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - Alat Berat Rental</title>
     
     <!-- Bootstrap 5 -->
@@ -12,18 +12,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
             font-family: 'Segoe UI', sans-serif;
-            overflow-x: hidden;
-            overflow-y: auto;
         }
 
         /* VIDEO BACKGROUND */
@@ -40,8 +33,6 @@
         /* OVERLAY */
         .overlay {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             background: linear-gradient(
@@ -53,45 +44,34 @@
 
         /* WRAPPER */
         .main-wrapper {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container-custom {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         /* LEFT CONTENT */
         .left-content {
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 0 80px;
         }
 
         .left-content h1 {
-            font-size: 36px;
+            font-size: 48px;
             font-weight: 700;
             letter-spacing: 2px;
-            margin-bottom: 15px;
         }
 
         .left-content p {
             font-size: 16px;
             opacity: 0.8;
             max-width: 400px;
-            margin: 0 auto;
         }
 
         .line {
             width: 60px;
             height: 3px;
             background: #ffbf2b;
-            margin: 15px auto;
+            margin: 15px 0;
         }
 
         /* LOGIN BOX */
@@ -99,12 +79,12 @@
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(8px);
             border-radius: 15px;
-            padding: 30px 25px;
+            padding: 45px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             color: white;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            margin: 0 auto;
+            margin-right: 60px;
             animation: fadeIn 0.8s ease;
         }
 
@@ -117,13 +97,6 @@
         .login-header h2 {
             color: white;
             font-weight: 600;
-            font-size: 22px;
-        }
-
-        .login-header img {
-            max-width: 100px;
-            height: auto;
-            margin-bottom: 10px;
         }
 
         /* INPUT */
@@ -131,15 +104,7 @@
             background: rgba(255,255,255,0.2);
             border: none;
             color: white;
-            padding: 12px;
-            font-size: 14px;
-        }
-
-        .form-control:focus {
-            background: rgba(255,255,255,0.3);
-            color: white;
-            outline: none;
-            box-shadow: none;
+            padding: 14px;
         }
 
         .form-control::placeholder {
@@ -149,7 +114,6 @@
         /* CHECKBOX */
         .form-check-label {
             color: white;
-            font-size: 14px;
         }
 
         /* BUTTON */
@@ -158,13 +122,12 @@
             color: black;
             border: none;
             font-weight: bold;
-            padding: 12px;
+            padding: 14px;
             transition: 0.3s;
-            font-size: 16px;
         }
 
         .btn-login:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
             opacity: 0.9;
         }
 
@@ -175,23 +138,17 @@
             text-align: center;
             margin-top: 20px;
             padding-top: 15px;
-            font-size: 14px;
         }
 
         .register-link a {
             color: #ffbf2b;
-            text-decoration: none;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
         }
 
         /* ANIMATION */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -200,86 +157,13 @@
         }
 
         /* RESPONSIVE */
-        @media (min-width: 769px) {
-            .left-content h1 {
-                font-size: 48px;
-                text-align: left;
-            }
-            
-            .left-content p {
-                margin: 0;
-                text-align: left;
-            }
-            
-            .line {
-                margin: 15px 0;
-            }
-            
-            .login-box {
-                padding: 45px;
-                margin-right: 60px;
-                margin-left: auto;
-            }
-            
-            .left-content {
-                text-align: left;
-                padding: 0 80px;
-            }
-        }
-
         @media (max-width: 768px) {
-            .main-wrapper {
-                padding: 15px;
-                align-items: flex-start;
-                padding-top: 40px;
-            }
-            
-            .login-box {
-                padding: 25px 20px;
-                margin: 0 auto;
-            }
-            
             .left-content {
-                margin-bottom: 30px;
+                display: none;
             }
-            
-            .left-content h1 {
-                font-size: 28px;
-            }
-            
-            .left-content p {
-                font-size: 14px;
-            }
-            
-            .login-header h2 {
-                font-size: 20px;
-            }
-            
-            .login-header img {
-                max-width: 80px;
-            }
-            
-            .btn-login {
-                padding: 10px;
-            }
-        }
 
-        @media (max-width: 480px) {
             .login-box {
-                padding: 20px 15px;
-            }
-            
-            .left-content h1 {
-                font-size: 24px;
-            }
-            
-            .form-control {
-                padding: 10px;
-                font-size: 13px;
-            }
-            
-            .btn-login {
-                font-size: 14px;
+                margin: auto;
             }
         }
     </style>
@@ -288,70 +172,75 @@
 
     <!-- VIDEO -->
     <video autoplay muted loop id="bg-video">
-        <source src="./videos/eskanew.mp4" type="video/mp4">
+        <source src="videos/eskanew.mp4" type="video/mp4">
+        <!-- Jika video tidak muncul, pastikan file eskanew.mp4 ada di folder videos/ -->
     </video>
 
     <!-- OVERLAY -->
     <div class="overlay"></div>
 
     <!-- CONTENT -->
-    <div class="main-wrapper">
-        <div class="container-custom">
-            <div class="row g-0">
-                
-                <!-- LEFT CONTENT -->
-                <div class="col-12 col-md-6 d-flex flex-column justify-content-center left-content">
-                    <h1>HEAVY EQUIPMENT RENTAL</h1>
-                    <div class="line"></div>
-                    <p>Solusi cepat dan profesional untuk peminjaman alat berat</p>
-                </div>
+    <div class="container-fluid main-wrapper">
+        <div class="row w-100">
 
-                <!-- RIGHT LOGIN -->
-                <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
-                    <div class="login-box">
-
-                        <!-- HEADER -->
-                        <div class="login-header">
-                            <img src="./images/logo-alatberat.png"
-                                alt="Logo"
-                                style="width: 100px; height: auto; object-fit: contain;">
-                            <h2>AlatBerat Rental</h2>
-                            <p style="font-size: 14px; opacity: 0.8;">Silakan login untuk melanjutkan</p>
-                        </div>
-
-                        <!-- FORM -->
-                        <form method="POST" action="#">
-                            <div class="mb-3">
-                                <input type="email" name="email" class="form-control" 
-                                       placeholder="Email" value="" required autofocus>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <input type="password" name="password" class="form-control" 
-                                       placeholder="Password" required>
-                            </div>
-                            
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                <label class="form-check-label" for="remember">Remember me</label>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-login w-100">
-                                <i class="fas fa-sign-in-alt me-2"></i> Login
-                            </button>
-                        </form>
-
-                        <!-- REGISTER -->
-                        <div class="register-link">
-                            <p class="mb-0">Belum punya akun? 
-                                <a href="#">Register</a>
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-
+            <!-- LEFT -->
+            <div class="col-md-6 d-flex flex-column justify-content-center left-content">
+                <h1>HEAVY EQUIPMENT RENTAL</h1>
+                <div class="line"></div>
+                <p>Solusi cepat dan profesional untuk peminjaman alat berat</p>
             </div>
+
+            <!-- RIGHT LOGIN -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div class="login-box">
+
+                    <!-- HEADER -->
+                    <div class="login-header">
+                        <h2>
+                            <img src="images/logo-alatberat.png"
+                                alt="Logo"
+                                style="width: 130px; height: 130px; object-fit: contain;">
+                            <br>
+                            Alat Berat
+                        </h2>
+                        <p>Silakan login untuk melanjutkan</p>
+                    </div>
+
+                    <!-- FORM (STATIS - TIDAK BERFUNGSI) -->
+                    <form method="POST" action="#">
+                        <!-- CSRF token tidak diperlukan di HTML statis -->
+                        
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" 
+                                   placeholder="Email" value="" required autofocus>
+                            <!-- Pesan error dihapus untuk tampilan statis -->
+                        </div>
+                        
+                        <div class="mb-3">
+                            <input type="password" name="password" class="form-control" 
+                                   placeholder="Password" required>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Remember me</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-login w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i> Login
+                        </button>
+                    </form>
+
+                    <!-- REGISTER -->
+                    <div class="register-link">
+                        <p class="mb-0">Belum punya akun? 
+                            <a href="#">Register</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 
