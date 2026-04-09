@@ -21,7 +21,6 @@
                     <th>Alat</th>
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Kembali Rencana</th>
-                    <th>Jumlah</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -37,7 +36,6 @@
                     </td>
                     <td>{{ \Carbon\Carbon::parse($item->tanggal_pinjam)->format('d/m/Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($item->tanggal_kembali_rencana)->format('d/m/Y') }}</td>
-                    <td>{{ $item->jumlah }}</td>
                     <td>
                         @if($item->status == 'pending')
                             <span class="badge badge-warning">Menunggu</span>
@@ -95,11 +93,7 @@
             </tbody>
         </table>
         
-        @if($peminjaman->hasPages())
-        <div class="d-flex justify-content-center">
-            {{ $peminjaman->links() }}
-        </div>
-        @endif
+        
     @endif
 </div>
 

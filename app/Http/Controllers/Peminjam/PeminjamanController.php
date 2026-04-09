@@ -73,7 +73,7 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::where('user_id', Auth::id())
             ->with('details.alat')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get(); 
         
         return view('peminjam.peminjaman.index', compact('peminjaman'));
     }

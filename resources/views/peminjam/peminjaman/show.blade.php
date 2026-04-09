@@ -51,11 +51,6 @@
                 </tr>
 
                 <tr>
-                    <th>Jumlah</th>
-                    <td>{{ $peminjaman->jumlah }}</td>
-                </tr>
-
-                <tr>
                     <th>Status</th>
                     <td>
                         @if($peminjaman->status == 'pending')

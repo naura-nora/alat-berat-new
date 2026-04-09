@@ -56,7 +56,7 @@
                                         </span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <th>Status Email</th>
                                     <td>
                                         @if($user->email_verified_at)
@@ -66,7 +66,7 @@
                                             <span class="badge badge-warning">Belum Verifikasi</span>
                                         @endif
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <th>Tanggal Daftar</th>
                                     <td>{{ $user->created_at->format('d F Y H:i') }}</td>
