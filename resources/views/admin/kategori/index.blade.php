@@ -44,7 +44,10 @@
                                             <a href="{{ route('admin.kategori.edit', $kategori) }}" class="btn btn-warning" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $kategori->id }}" title="Hapus">
+                                            <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $kategori->id }}" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button> -->
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $kategori->id }}" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -55,14 +58,16 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title">Konfirmasi Hapus</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>Apakah Anda yakin ingin menghapus kategori <strong>{{ $kategori->nama }}</strong>?</p>
                                                         <p class="text-danger"><small>Tindakan ini tidak dapat dibatalkan.</small></p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                                         <form action="{{ route('admin.kategori.destroy', $kategori) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')

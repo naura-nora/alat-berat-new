@@ -45,7 +45,7 @@ class AdminLaporanController extends Controller
                         ->whereHas('transaksi')
                         ->get();
         
-        return view('admin.laporan.cetak-bulan', [
+        return view('admin.laporan.cetak-bulanan', [
             'bulan' => $this->namaBulan($bulan),
             'tahun' => $tahun,
             'data' => $data,
